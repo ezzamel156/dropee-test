@@ -4,19 +4,17 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class Cell extends Component
+class Modal extends Component
 {
-    public $cell;
-    public $index;
+    public $xShow;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($cell, $index)
+    public function __construct($xShow)
     {
-        $this->cell = $cell;        
-        $this->index = $index;        
+        $this->xShow = $xShow;
     }
 
     /**
@@ -26,6 +24,6 @@ class Cell extends Component
      */
     public function render()
     {
-        return view('components.cell');
+        return view('components.modal');
     }
 }

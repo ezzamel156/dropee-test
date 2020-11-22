@@ -32,5 +32,5 @@ import 'alpinejs';
 import Quill from 'quill';
 window.Quill = Quill;
 
-import { Sortable } from '@shopify/draggable';
-window.Sortable = Sortable;
+import {Swappable, Plugins} from '@shopify/draggable';
+window.Swappable = Swappable, window.Plugins = Plugins;

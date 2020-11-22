@@ -18,7 +18,7 @@ class Grid extends Model
 
     public function getLayoutAttribute()
     {
-        $layout = collect()->pad($this->size, null);
+        $layout = collect()->pad($this->size, new Cell);
         foreach ($this->cells as $cell) {
             $layout->put($cell->index-1, $cell);
         }

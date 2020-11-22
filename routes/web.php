@@ -16,5 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $grid = Grid::with('cells')->first();
-    return view('index', compact('grid'));
+    return view('show', compact('grid'));
 });
+
+Route::get('/grids/{grid}', 'GridController@show');
+
+Route::put('/grids/{grid}/cells/{cell}/index', 'CellController@indexUpdate');
+Route::put('/grids/{grid}/cells/{cell}', 'CellController@update');
+Route::post('/grids/{grid}/cells', 'CellController@store');
