@@ -15,10 +15,15 @@ class CellController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, Grid $grid)
-    {
+    {   
+        $validatedData = $request->validate([
+            'content' => 'string|nullable',
+            'cellIndex' => 'integer|required',
+        ]);
+
         $cell = new Cell;
-        $cell->content = strip_tags($request->content,'<p><strong><em><s><u><br>');
-        $cell->index = $request->cellIndex;
+        $cell->content = strip_tags($validatedData['content'],'<p><strong><em><s><u><br>');
+        $cell->index = $validatedData['cellIndex'];
         $grid->cells()->save($cell);
         return response()->json($cell);
     }
@@ -33,7 +38,11 @@ class CellController extends Controller
      */
     public function update(Request $request, Grid $grid, Cell $cell)
     {        
-        $cell->content = strip_tags($request->content,'<p><strong><em><s><u><br>');
+        $validatedData = $request->validate([
+            'content' => 'string|nullable'
+        ]);
+
+        $cell->content = strip_tags($validatedData['content'],'<p><strong><em><s><u><br>');
         $cell->save();
         return response()->json($cell);
     }
@@ -46,12 +55,17 @@ class CellController extends Controller
      */
     public function indexUpdate(Request $request, Grid $grid, Cell $cell)
     {
+        $validatedData = $request->validate([
+            'swappedCellId' => 'integer|required_without:cellIndex',
+            'cellIndex' => 'integer|required_without:swappedCellId'
+        ]);
+
         if($request->has('swappedCellId')) {
-            $targetCell = Cell::findOrFail($request->swappedCellId);
+            $targetCell = Cell::findOrFail($validatedData['swappedCellId']);
             $cell->swapIndex($targetCell);
         }
         else {
-            $cell->index = $request->cellIndex;
+            $cell->index = $validatedData['cellIndex']; 
             $cell->save();
         }
         return response()->json($cell);
